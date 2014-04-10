@@ -15,11 +15,16 @@ module.exports = function (grunt) {
       cdn: 'google'
     });
 
-    // Strip the leading path segment off, e.g. `app/bower_components` ->
-    // `bower_components`
-    var bowerDirBits = bowerConfig.directory.split(path.sep);
-    bowerDirBits.shift();
-    var componentsPath = bowerDirBits.join(path.sep);
+    var componentsPath;
+    if (options.componentsPath) {
+      componentsPath = options.componentsPath
+    } else {
+      // Strip the leading path segment off, e.g. `app/bower_components` ->
+      // `bower_components`
+      var bowerDirBits = bowerConfig.directory.split(path.sep);
+      bowerDirBits.shift();
+      componentsPath = bowerDirBits.join('/'); // in web urls always use /
+    }
 
     grunt.log
       .writeln('Going through ' + grunt.log.wordlist(files) + ' to update script refs');
